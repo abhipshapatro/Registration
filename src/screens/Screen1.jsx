@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
+import PhoneNumberInput from "../components/PhoneNumberInput";
 
 const validateForm = (userInput) => {
   const errors = {};
@@ -21,7 +22,7 @@ const validateForm = (userInput) => {
   }
 
   if (!userInput.email) {
-    errors.email = "Please Enter Email ID";
+    errors.email = "Please Enter Email address";
   } else if (
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(userInput.email)
   ) {
@@ -130,6 +131,9 @@ const Screen1 = () => {
             ) : null}
         </div>
 
+        <div>
+          <PhoneNumberInput />
+        </div>
         {/* phone input */}
         <div className="w-full relative">
           <input
