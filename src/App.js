@@ -12,8 +12,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Screen1 />} />
-          <Route path="/password" element={<Screen2 />} />
-          <Route path="/modal" element={<Screen3 />} />
+          {/* <Route path="/password" element={<Screen2 />} /> */}
+          {/* <Route path="/modal" element={<Screen3 />} /> */}
           <Route path="/phone" element={<PhoneNumberInput />} />
         </Routes>
       </Router>
