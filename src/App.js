@@ -10,7 +10,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Screen1 />} />
           <Route path="/password" element={<Screen2 />} />
-          <Route path="/modal" element={<Screen3 />} />
         </Routes>
       </Router>
     </div>
