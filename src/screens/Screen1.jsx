@@ -4,7 +4,8 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-import PhoneNumberInput from "../components/PhoneNumberInput";
+
+import PhoneInput from "react-phone-input-2";
 
 const validateForm = (userInput) => {
   const errors = {};
@@ -28,6 +29,9 @@ const validateForm = (userInput) => {
   ) {
     errors.email = "Invalid email address";
   }
+  if (!userInput.mobile) {
+    errors.mobile = "Required";
+  }
 
   return errors;
 };
@@ -38,7 +42,7 @@ const Screen1 = () => {
       firstName: "",
       lastName: "",
       email: "",
-      phone: "",
+      mobile: "",
     },
     validate: validateForm,
     onSubmit: (values) => {
@@ -82,14 +86,16 @@ const Screen1 = () => {
               First name
             </label>
             {formik.touched.firstName && formik.errors.firstName ? (
-              <span className="text-red-400 text-sm">{formik.errors.firstName}</span>
+              <span className="text-red-400 text-sm">
+                {formik.errors.firstName}
+              </span>
             ) : null}
           </div>
 
           {/* last name input */}
           <div className="w-full relative">
             <input
-            name="lastName"
+              name="lastName"
               type="text"
               value={formik.values.lastName}
               onChange={formik.handleChange}
@@ -104,7 +110,9 @@ const Screen1 = () => {
               Last name
             </label>
             {formik.touched.lastName && formik.errors.lastName ? (
-              <span className="text-red-400 text-sm">{formik.errors.lastName}</span>
+              <span className="text-red-400 text-sm">
+                {formik.errors.lastName}
+              </span>
             ) : null}
           </div>
         </div>
@@ -112,11 +120,11 @@ const Screen1 = () => {
         {/* email address input */}
         <div className="w-full relative">
           <input
-          name="email"
+            name="email"
             type="text"
             value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="Your Email Address"
             className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
           />
@@ -127,27 +135,55 @@ const Screen1 = () => {
             Your email address
           </label>
           {formik.touched.email && formik.errors.email ? (
-              <span className="text-red-400 text-sm">{formik.errors.email}</span>
-            ) : null}
+            <span className="text-red-400 text-sm">{formik.errors.email}</span>
+          ) : null}
         </div>
-
-        <div>
-          <PhoneNumberInput />
-        </div>
-        {/* phone input */}
+        {/* Phone number */}
         <div className="w-full relative">
-          <input
-            type="text"
-            value={formik.values.phone}
-            placeholder="Your Phone"
-            className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
+          <PhoneInput
+            className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full "
+            inputStyle={{
+              borderRadius: 30,
+
+              width: "100%",
+              ".PhoneInputInput": {
+                "&:focus-visible": {
+                  outline: "none",
+                },
+              },
+            }}
+            buttonStyle={{
+              borderTopLeftRadius: 30,
+              borderBottomLeftRadius: 30,
+            }}
+            inputExtraProps={{
+              name: "phone",
+              required: true,
+              autoFocus: true,
+            }}
+            country={"in"}
+            placeholder="Enter your phone"
+            isValid={(value, country) => {
+              if (value.match(/12345/)) {
+                return "Invalid value: " + value + ", " + country.name;
+              } else if (value.match(/1234/)) {
+                return false;
+              } else {
+                return true;
+              }
+            }}
+            name="mobile"
+            id="mobile"
+            value={formik.values.mobile}
+            onBlur={() =>
+              !formik.touched.mobile &&
+              formik.setFieldTouched("mobile", true, true)
+            }
+            onChange={formik.handleChange}
           />
-          <label
-            htmlFor="phone"
-            className="absolute text-gray-300 text-sm font-semibold peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-orange-600 transition-all duration-300 ease-in-out"
-          >
-            Your phone
-          </label>
+          {formik.errors.mobile && formik.touched.mobile ? (
+            <span className="text-red-400 text-sm">{formik.errors.mobile}</span>
+          ) : null}
         </div>
 
         {/* Next button */}
