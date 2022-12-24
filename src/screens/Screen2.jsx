@@ -1,76 +1,87 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
+import Screen3 from "./Screen3";
 
 const Screen2 = () => {
 
-    // const [showModal, setShowModal] = useState(false);
-    const [passwordError, setPasswordErr] = useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
-    const [passwordInput, setPasswordInput] = useState({
-        password: '',
-        confirmPassword: ''
-    })
+  const [showModal, setShowModal] = useState(false);
+  const [selected, setSelected] = useState('')
 
-    const handlePasswordChange = (evnt) => {
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [passwordInput, setPasswordInput] = useState({
+    password: '',
+    confirmPassword: ''
+  })
 
-        const passwordInputValue = evnt.target.value.trim();
-        console.log(passwordInputValue);
-        const passwordInputFieldName = evnt.target.name;
-        const NewPasswordInput = { ...passwordInput, [passwordInputFieldName]: passwordInputValue }
-        setPasswordInput(NewPasswordInput);
+  const handlePasswordChange = (event) => {
 
+    const passwordInputValue = event.target.value.trim();
+    // console.log(passwordInputValue);
+    const passwordInputFieldName = event.target.name;
+    const NewPasswordInput = { ...passwordInput, [passwordInputFieldName]: passwordInputValue }
+    setPasswordInput(NewPasswordInput);
+
+  }
+  const handleValidation = (event) => {
+
+    const passwordInputValue = event.target.value.trim();
+    const passwordInputFieldName = event.target.name;
+
+    //for password 
+    if (passwordInputFieldName === 'password') {
+      const uppercaseRegExp = /(?=.*?[A-Z])/;
+      const lowercaseRegExp = /(?=.*?[a-z])/;
+      const digitsRegExp = /(?=.*?[0-9])/;
+      const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/;
+      const minLengthRegExp = /.{8,}/;
+
+      const passwordLength = passwordInputValue.length;
+      const uppercasePassword = uppercaseRegExp.test(passwordInputValue);
+      const lowercasePassword = lowercaseRegExp.test(passwordInputValue);
+      const digitsPassword = digitsRegExp.test(passwordInputValue);
+      const specialCharPassword = specialCharRegExp.test(passwordInputValue);
+      const minLengthPassword = minLengthRegExp.test(passwordInputValue);
+
+      let errMsg = "";
+      if (passwordLength === 0) {
+        errMsg = "Password is empty";
+      } else if (!uppercasePassword) {
+        errMsg = "At least one Uppercase";
+      } else if (!lowercasePassword) {
+        errMsg = "At least one Lowercase";
+      } else if (!digitsPassword) {
+        errMsg = "At least one digit";
+      } else if (!specialCharPassword) {
+        errMsg = "At least one Special Characters";
+      } else if (!minLengthPassword) {
+        errMsg = "At least minumum 8 characters";
+      } else {
+        errMsg = "";
+      }
+      setPasswordError(errMsg);
     }
-    const handleValidation = (evnt) => {
 
-        const passwordInputValue = evnt.target.value.trim();
-        const passwordInputFieldName = evnt.target.name;
+    // for confirm password
+    if (passwordInputFieldName === "confirmPassword" || (passwordInputFieldName === "password" && passwordInput.confirmPassword.length > 0)) {
 
-        //for password 
-        if (passwordInputFieldName === 'password') {
-            const uppercaseRegExp = /(?=.*?[A-Z])/;
-            const lowercaseRegExp = /(?=.*?[a-z])/;
-            const digitsRegExp = /(?=.*?[0-9])/;
-            const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/;
-            const minLengthRegExp = /.{8,}/;
-
-            const passwordLength = passwordInputValue.length;
-            const uppercasePassword = uppercaseRegExp.test(passwordInputValue);
-            const lowercasePassword = lowercaseRegExp.test(passwordInputValue);
-            const digitsPassword = digitsRegExp.test(passwordInputValue);
-            const specialCharPassword = specialCharRegExp.test(passwordInputValue);
-            const minLengthPassword = minLengthRegExp.test(passwordInputValue);
-
-            let errMsg = "";
-            if (passwordLength === 0) {
-                errMsg = "Password is empty";
-            } else if (!uppercasePassword) {
-                errMsg = "At least one Uppercase";
-            } else if (!lowercasePassword) {
-                errMsg = "At least one Lowercase";
-            } else if (!digitsPassword) {
-                errMsg = "At least one digit";
-            } else if (!specialCharPassword) {
-                errMsg = "At least one Special Characters";
-            } else if (!minLengthPassword) {
-                errMsg = "At least minumum 8 characters";
-            } else {
-                errMsg = "";
-            }
-            setPasswordErr(errMsg);
-        }
-
-        // for confirm password
-        if (passwordInputFieldName === "confirmPassword" || (passwordInputFieldName === "password" && passwordInput.confirmPassword.length > 0)) {
-
-            if (passwordInput.confirmPassword !== passwordInput.password) {
-                setConfirmPasswordError("Confirm password is not matched");
-            } else {
-                setConfirmPasswordError("");
-            }
-
-        }
-
+      if (passwordInput.confirmPassword !== passwordInput.password) {
+        setConfirmPasswordError("Confirm password is not matched");
+      } else {
+        setConfirmPasswordError("");
+      }
     }
+  }
+
+  const handleSelectChange = (event) => {
+    setSelected(event.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+  }
+
 
   return (
     <div>
@@ -83,15 +94,15 @@ const Screen2 = () => {
         <p className="text-gray-400 mt-2 font-semibold">Last Step</p>
       </div>
 
-        {/* form div */}
-      <form className="sm:w-1/3 mx-auto h-[70vh] flex flex-col items-center justify-between">
+      {/* form div */}
+      <form onSubmit={handleSubmit} className="sm:w-1/3 mx-auto h-[70vh] flex flex-col items-center justify-between">
         {/* form inputs div */}
         <div className="w-full flex flex-col mx-auto items-center justify-center px-3 py-1 gap-4">
-        
+
           {/* enter password */}
           <div className="w-full relative">
             <input
-            name="password"
+              name="password"
               type="password"
               placeholder="Enter password"
               className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
@@ -111,7 +122,7 @@ const Screen2 = () => {
           {/* confirm password */}
           <div className="w-full relative">
             <input
-            name="confirmPassword"
+              name="confirmPassword"
               type="password"
               placeholder="Repeat password"
               className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
@@ -131,9 +142,11 @@ const Screen2 = () => {
           {/* information */}
           <div className="w-full relative">
             <select
-              placeholder="How did you hear about us?"
+              defaultValue={selected}
+              onChange={handleSelectChange}
               className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
             >
+              <option value="" hidden> How did you hear about us? </option>
               <option value="AngelList">AngelList</option>
               <option value="LinkedIn">LinkedIn</option>
               <option value="Others">Others</option>
@@ -142,7 +155,7 @@ const Screen2 = () => {
 
           {/* terms & condition */}
           <div className="w-full flex items-center gap-4">
-            <input type="checkbox" className="w-4 h-4" />
+            <input checked type="checkbox" className="w-4 h-4" />
             <p className="text-gray-400 font-semibold">
               I Agree{" "}
               <span className="text-orange-400">terms and conditions</span> and{" "}
@@ -161,13 +174,14 @@ const Screen2 = () => {
 
         {/* register btn */}
         <div className="w-full mt-10">
-          <button className="w-full border-2 focus:outline-orange-400 text-white bg-orange-400 rounded-full px-6 py-4">
+          <button onClick={() => setShowModal(true)} type="submit" className="w-full border-2 focus:outline-orange-400 text-white bg-orange-400 rounded-full px-6 py-4">
             Register
           </button>
         </div>
       </form>
+      {showModal && <Screen3 />}
 
-      
+
     </div>
   );
 };
