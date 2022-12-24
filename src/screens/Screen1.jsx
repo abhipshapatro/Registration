@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 
 import PhoneInput from "react-phone-input-2";
@@ -47,8 +47,15 @@ const Screen1 = () => {
     validate: validateForm,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      navigate('/password')
     },
   });
+
+  let navigate = useNavigate();
+  // const handleNext = () => {
+    
+  //   navigate('/password')
+  // }
   return (
     <div>
       <Header />
