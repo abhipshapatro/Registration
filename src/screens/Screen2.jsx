@@ -3,7 +3,74 @@ import Header from "../components/Header";
 
 const Screen2 = () => {
 
-    const [showModal, setShowModal] = useState(false);
+    // const [showModal, setShowModal] = useState(false);
+    const [passwordError, setPasswordErr] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [passwordInput, setPasswordInput] = useState({
+        password: '',
+        confirmPassword: ''
+    })
+
+    const handlePasswordChange = (evnt) => {
+
+        const passwordInputValue = evnt.target.value.trim();
+        console.log(passwordInputValue);
+        const passwordInputFieldName = evnt.target.name;
+        const NewPasswordInput = { ...passwordInput, [passwordInputFieldName]: passwordInputValue }
+        setPasswordInput(NewPasswordInput);
+
+    }
+    const handleValidation = (evnt) => {
+
+        const passwordInputValue = evnt.target.value.trim();
+        const passwordInputFieldName = evnt.target.name;
+
+        //for password 
+        if (passwordInputFieldName === 'password') {
+            const uppercaseRegExp = /(?=.*?[A-Z])/;
+            const lowercaseRegExp = /(?=.*?[a-z])/;
+            const digitsRegExp = /(?=.*?[0-9])/;
+            const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/;
+            const minLengthRegExp = /.{8,}/;
+
+            const passwordLength = passwordInputValue.length;
+            const uppercasePassword = uppercaseRegExp.test(passwordInputValue);
+            const lowercasePassword = lowercaseRegExp.test(passwordInputValue);
+            const digitsPassword = digitsRegExp.test(passwordInputValue);
+            const specialCharPassword = specialCharRegExp.test(passwordInputValue);
+            const minLengthPassword = minLengthRegExp.test(passwordInputValue);
+
+            let errMsg = "";
+            if (passwordLength === 0) {
+                errMsg = "Password is empty";
+            } else if (!uppercasePassword) {
+                errMsg = "At least one Uppercase";
+            } else if (!lowercasePassword) {
+                errMsg = "At least one Lowercase";
+            } else if (!digitsPassword) {
+                errMsg = "At least one digit";
+            } else if (!specialCharPassword) {
+                errMsg = "At least one Special Characters";
+            } else if (!minLengthPassword) {
+                errMsg = "At least minumum 8 characters";
+            } else {
+                errMsg = "";
+            }
+            setPasswordErr(errMsg);
+        }
+
+        // for confirm password
+        if (passwordInputFieldName === "confirmPassword" || (passwordInputFieldName === "password" && passwordInput.confirmPassword.length > 0)) {
+
+            if (passwordInput.confirmPassword !== passwordInput.password) {
+                setConfirmPasswordError("Confirm password is not matched");
+            } else {
+                setConfirmPasswordError("");
+            }
+
+        }
+
+    }
 
   return (
     <div>
@@ -17,38 +84,48 @@ const Screen2 = () => {
       </div>
 
         {/* form div */}
-      <div className="sm:w-1/3 mx-auto h-[70vh] flex flex-col items-center justify-between">
+      <form className="sm:w-1/3 mx-auto h-[70vh] flex flex-col items-center justify-between">
         {/* form inputs div */}
         <div className="w-full flex flex-col mx-auto items-center justify-center px-3 py-1 gap-4">
         
           {/* enter password */}
           <div className="w-full relative">
             <input
+            name="password"
               type="password"
               placeholder="Enter password"
               className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
+              value={passwordInput.password}
+              onChange={handlePasswordChange}
+              onKeyUp={handleValidation}
             />
             <label
               htmlFor="enter password"
-              className="absolute text-gray-300 text-sm font-semibold peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-orange-600 transition-all duration-300 ease-in-out"
+              className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-orange-600 transition-all duration-300 ease-in-out"
             >
               Enter Password
             </label>
+            <p className="text-red-400 text-sm">{passwordError}</p>
           </div>
 
-          {/* repeat password */}
+          {/* confirm password */}
           <div className="w-full relative">
             <input
+            name="confirmPassword"
               type="password"
               placeholder="Repeat password"
               className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
+              value={passwordInput.confirmPassword}
+              onChange={handlePasswordChange}
+              onKeyUp={handleValidation}
             />
             <label
               htmlFor="repeat password"
-              className="absolute text-gray-300 text-sm font-semibold peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-orange-600 transition-all duration-300 ease-in-out"
+              className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-orange-600 transition-all duration-300 ease-in-out"
             >
               Repeat Password
             </label>
+            <p className="text-red-400 text-sm">{confirmPasswordError}</p>
           </div>
 
           {/* information */}
@@ -88,7 +165,7 @@ const Screen2 = () => {
             Register
           </button>
         </div>
-      </div>
+      </form>
 
       
     </div>
