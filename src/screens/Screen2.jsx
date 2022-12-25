@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
-import Screen3 from "./Screen3";
+import Modal from "./Modal";
 
 const Screen2 = () => {
 
@@ -78,8 +78,8 @@ const Screen2 = () => {
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+    setShowModal(true)
   }
 
 
@@ -105,14 +105,14 @@ const Screen2 = () => {
               name="password"
               type="password"
               placeholder="Enter password"
-              className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
+              className="peer placeholder:text-transparent w-full border-2 focus:outline-indigo-500 rounded-full px-6 py-4"
               value={passwordInput.password}
               onChange={handlePasswordChange}
               onKeyUp={handleValidation}
             />
             <label
               htmlFor="enter password"
-              className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-orange-600 transition-all duration-300 ease-in-out"
+              className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
             >
               Enter Password
             </label>
@@ -125,14 +125,14 @@ const Screen2 = () => {
               name="confirmPassword"
               type="password"
               placeholder="Repeat password"
-              className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
+              className="peer placeholder:text-transparent w-full border-2 focus:outline-indigo-500 rounded-full px-6 py-4"
               value={passwordInput.confirmPassword}
               onChange={handlePasswordChange}
               onKeyUp={handleValidation}
             />
             <label
               htmlFor="repeat password"
-              className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-orange-600 transition-all duration-300 ease-in-out"
+              className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
             >
               Repeat Password
             </label>
@@ -144,7 +144,7 @@ const Screen2 = () => {
             <select
               defaultValue={selected}
               onChange={handleSelectChange}
-              className="peer placeholder:text-transparent w-full border-2 focus:outline-orange-400 rounded-full px-6 py-4"
+              className="peer placeholder:text-transparent w-full border-2 focus:outline-indigo-500 rounded-full px-6 py-4"
             >
               <option value="" hidden> How did you hear about us? </option>
               <option value="AngelList">AngelList</option>
@@ -158,8 +158,8 @@ const Screen2 = () => {
             <input checked type="checkbox" className="w-4 h-4" />
             <p className="text-gray-400 font-semibold">
               I Agree{" "}
-              <span className="text-orange-400">terms and conditions</span> and{" "}
-              <span className="text-orange-400">privacy policy</span>
+              <span className="text-indigo-500">terms and conditions</span> and{" "}
+              <span className="text-indigo-500">privacy policy</span>
             </p>
           </div>
 
@@ -174,14 +174,12 @@ const Screen2 = () => {
 
         {/* register btn */}
         <div className="w-full mt-10">
-          <button onClick={() => setShowModal(true)} type="submit" className="w-full border-2 focus:outline-orange-400 text-white bg-orange-400 rounded-full px-6 py-4">
+          <button type="submit" className="w-full border-2 focus:outline-indigo-500 text-white bg-indigo-500 rounded-full px-6 py-4">
             Register
           </button>
         </div>
       </form>
-      {showModal && <Screen3 />}
-
-
+      {showModal && <Modal />}
     </div>
   );
 };
