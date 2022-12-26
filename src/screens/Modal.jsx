@@ -9,7 +9,7 @@ const Modal = () => {
   }
   return (
     <>
-      <div id="defaultModal" className="w-full h-[50vh] top-80 sm:h-full sm:flex mx-auto sm:justify-center sm:items-center bg-gray-400  overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none py-2">
+      <div id="defaultModal" className="w-full h-[50vh] top-80 sm:top-0 sm:h-full sm:flex mx-auto sm:justify-center sm:items-center bg-gray-400  overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none py-2">
         {/*content*/}
         <div className="md:w-[50vw] h-[50vh] border-0 rounded-t-3xl sm:rounded-3xl shadow-lg relative flex flex-col bg-white outline-none focus:outline-none">
 
