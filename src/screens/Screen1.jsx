@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 
 import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css'
 
 const validateForm = (userInput) => {
   const errors = {};
@@ -37,6 +38,9 @@ const validateForm = (userInput) => {
 };
 
 const Screen1 = () => {
+
+  let navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -45,17 +49,13 @@ const Screen1 = () => {
       mobile: "",
     },
     validate: validateForm,
-    onSubmit: (values) => {
+    onSubmit: (values,event) => {
+      event.preventDefault();
+      navigate("/password");
       alert(JSON.stringify(values, null, 2));
-      navigate('/password')
     },
   });
 
-  let navigate = useNavigate();
-  // const handleNext = () => {
-
-  //   navigate('/password')
-  // }
   return (
     <div>
       <Header />
@@ -84,11 +84,11 @@ const Screen1 = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="First name"
-              className="peer placeholder:text-transparent w-full border-2 focus:outline-indigo-500 rounded-full px-6 py-4"
+              className="peer placeholder:text-transparent w-full border-2 hover:border-indigo-500 focus:outline-indigo-500 rounded-full px-6 py-4"
             />
             <label
               htmlFor="first name"
-              className="absolute text-gray-300 text-sm font-semibold left-6  peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
+              className="absolute text-gray-300 text-sm font-semibold -top-3 left-6  peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
             >
               First name
             </label>
@@ -108,11 +108,11 @@ const Screen1 = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               placeholder="Last name"
-              className="peer placeholder:text-transparent w-full border-2 focus:outline-indigo-500 rounded-full px-6 py-4"
+              className="peer placeholder:text-transparent w-full border-2 hover:border-indigo-500 focus:outline-indigo-500 rounded-full px-6 py-4"
             />
             <label
               htmlFor="last name"
-              className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
+              className="absolute text-gray-300 text-sm font-semibold -top-3 left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
             >
               Last name
             </label>
@@ -133,11 +133,11 @@ const Screen1 = () => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="Your Email Address"
-            className="peer placeholder:text-transparent w-full border-2 focus:outline-indigo-500 rounded-full px-6 py-4"
+            className="peer placeholder:text-transparent w-full border-2 hover:border-indigo-500 focus:outline-indigo-500 rounded-full px-6 py-4"
           />
           <label
             htmlFor="email"
-            className="absolute text-gray-300 text-sm font-semibold left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
+            className="absolute text-gray-300 text-sm font-semibold -top-3 left-6 peer-placeholder-shown:top-5 peer-placeholder-shown:left-6 peer-focus:-top-3 z-10 bg-white px-2 peer-focus:text-indigo-500 transition-all duration-300 ease-in-out"
           >
             Your email address
           </label>
@@ -148,10 +148,10 @@ const Screen1 = () => {
         {/* Phone number */}
         <div className="w-full relative">
           <PhoneInput
-            className="peer placeholder:text-transparent w-full border-2 focus:outline-indigo-500 rounded-full "
+            className="peer placeholder:text-transparent w-full border-2 hover:border-indigo-500 focus:outline-indigo-500 rounded-full "
             inputStyle={{
               borderRadius: 30,
-
+              
               width: "100%",
               ".PhoneInputInput": {
                 "&:focus-visible": {
@@ -186,6 +186,7 @@ const Screen1 = () => {
               !formik.touched.mobile &&
               formik.setFieldTouched("mobile", true, true)
             }
+            
             onChange={formik.handleChange}
 
           />
@@ -198,7 +199,8 @@ const Screen1 = () => {
         <div className="w-full mt-10">
           <button
             type="submit"
-            className="w-full border-2 focus:outline-indigo-500 text-white bg-indigo-500 rounded-full px-6 py-4"
+            onClick={()=>navigate("/password")}
+            className="w-full border-2 hover:border-indigo-500 focus:outline-indigo-500 text-white bg-indigo-500 rounded-full px-6 py-4"
           >
             Next
           </button>
@@ -213,7 +215,7 @@ const Screen1 = () => {
 
         {/* google btn */}
         <div className="w-full">
-          <button className="w-full flex items-center justify-center gap-4 border-2 focus:outline-indigo-500 rounded-full px-6 py-4">
+          <button className="w-full flex items-center justify-center gap-4 border-2 hover:border-indigo-500 focus:outline-indigo-500 rounded-full px-6 py-4">
             <FcGoogle />{" "}
             <span className="text-base text-gray-800 font-semibold">
               With Google
@@ -223,7 +225,7 @@ const Screen1 = () => {
 
         {/* facebook btn */}
         <div className="w-full">
-          <button className="w-full flex items-center justify-center gap-4 border-2 focus:outline-indigo-500 rounded-full px-6 py-4">
+          <button className="w-full flex items-center justify-center gap-4 border-2 hover:border-indigo-500 focus:outline-indigo-500 rounded-full px-6 py-4">
             <FaFacebook className="text-[#3b5998]" />{" "}
             <span className="text-base text-gray-800 font-semibold">
               With Facebook
